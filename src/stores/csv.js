@@ -5,8 +5,6 @@ const cron = require('node-cron')
 
 const validateFriend = require('../validators/friend.js')
 
-const DUMMY_DATA = path.resolve(__dirname, '../../data/friends.csv')
-
 const processRow = ({ row, notify }) => {
   try {
     const { error } = validateFriend(row)
@@ -24,6 +22,11 @@ const processRow = ({ row, notify }) => {
   }
 }
 
+const DUMMY_DATA = path.resolve(
+  __dirname,
+  '../../tests/unit/mocks/good_friends.csv'
+)
+
 module.exports = ({ notify, file }) => {
   const csv = fs.createReadStream(file || DUMMY_DATA)
 
@@ -39,6 +42,4 @@ module.exports = ({ notify, file }) => {
       console.error('Error reading CSV file', err)
       process.exit(1)
     })
-
-  return csv
 }
