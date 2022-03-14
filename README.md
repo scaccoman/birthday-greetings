@@ -49,9 +49,11 @@ There's a set of problems to solve:
 
 Keeping things simple, I've decided to not handle certain edge cases:
 
-- The date of birth validation is handled by JavaScript's built-in Date object and by a simple regex. Which means that there's, unfortunately, many edge cases not accounted for.
-- The server is stateless and doesn't keep track of emails sent. This means that if there are crashes, it could potentially miss some emails. This is a problem that could be easily fixed by adding some sort of DB or a log file.
-- There's no way to easily deploy the project to a remote server, it's just meant to be run locally.
+- The date of birth validation is handled by JavaScript's built-in Date constructor and by a simple regex. Therefore there are many edge cases not accounted for. (as far as I could see, February 29th is correctly handled)
+- The server is stateless and doesn't keep track of emails sent. If there are crashes, it could potentially miss some emails or send the same email twice. This is a problem that could be easily fixed by adding some sort of DB or a log file.
+- The server is not restarted when the configuration file is updated or when new friends are added to the flat file.
+- There is no concurrency control, too many friends with the same birthday could cause problems.
+- At the moment, there's no way to easily deploy the project to a remote server, it's just meant to be run locally.
 
 ## Development
 
@@ -66,3 +68,16 @@ Run the application in development mode:
 ```javascript
 npm run dev
 ```
+
+## Testing
+
+Due to time constraints, only unit tests are currently implemented. Lots of improvements could be done, however, I feel that is out-of-scope for this project.
+You can run the unit tests using Jest:
+
+```javascript
+npm test
+```
+
+## Linting, Formatting and pre-commit hooks
+
+The code is linted and automatically formatted by [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/). [Husky](https://typicode.github.io/husky/#/) and [lint-staged](https://www.npmjs.com/package/lint-staged) are used to automatically run the linter and formatter before each commit.
