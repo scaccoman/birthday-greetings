@@ -27,8 +27,8 @@ const DUMMY_DATA = path.resolve(
   '../../tests/unit/mocks/good_friends.csv'
 )
 
-module.exports = ({ notify, file }) => {
-  const csv = fs.createReadStream(file || DUMMY_DATA)
+module.exports = ({ notify, file = DUMMY_DATA }) => {
+  const csv = fs.createReadStream(file)
 
   csv
     .pipe(csvParser())
